@@ -1,0 +1,54 @@
+name: Build and Release firmware
+on:
+  push:
+    tags:
+      - v*
+      - test*
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: docker://qmkfm/base_container:latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: docker://qmkfm/base_container:latest
+    - name: make
+      run: |
+        wget -P /tmp/foostan/crkbd https://github.com/foostan/qmk_firmware/archive/crkbd.zip
+        unzip -d /tmp/foostan/crkbd /tmp/crkbd/foostan/crkbd.zip > /dev/null
+        mv /tmp/lufa-master/LUFA lib/lufa/
+        make crkbd/rev1/common:via
+        mv -v .build/crkbd_rev1_common_via.hex .build/crkbd_rev1_common_via_${GITHUB_RUN_ID}.hex
+    - uses: actions/upload-artifact@v1
+      with:
+        name: firmware
+        path: .build/crkbd_rev1_common_via_${{ github.run_id }}.hex
+  lerease:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          Changes in this Release
+          - test body.
+        draft: false
+        prerelease: false
+    - uses: actions/download-artifact@v1
+      with:
+        name: firmware
+    - name: upload release asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: firmware/crkbd_rev1_common_via_${{ github.run_id }}.hex
+        asset_name: crkbd_rev1_common_via_${{ github.run_id }}.hex
+        asset_content_type: application/octet-stream
