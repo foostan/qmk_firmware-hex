@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        repository: foostan/qmk_firmware:crkbd
+        repository: foostan/qmk_firmware
         ref: crkbd
     - uses: docker://qmkfm/base_container:latest
     - name: make
