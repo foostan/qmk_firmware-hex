@@ -15,7 +15,6 @@ jobs:
         repository: foostan/qmk_firmware
         ref: crkbd
         submodules: true
-    - uses: docker://qmkfm/base_container:latest
     - name: make
       run: |
         make crkbd/rev1/common:via
