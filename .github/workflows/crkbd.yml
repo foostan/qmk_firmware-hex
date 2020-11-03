@@ -2,8 +2,7 @@ name: Build and Release crkbd
 on:
   push:
     tags:
-      - v*
-      - test*
+      - release-*
 jobs:
   build:
     runs-on: ubuntu-latest
