@@ -1,4 +1,4 @@
-name: Build and Release firmware
+name: Build and Release crkbd
 on:
   push:
     tags:
@@ -10,45 +10,43 @@ jobs:
     container:
       image: docker://qmkfm/base_container:latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout foostan/qmk_firmware:crkbd
+      uses: actions/checkout@v2
       with:
         repository: foostan/qmk_firmware
         ref: crkbd
         submodules: true
-    - name: make
+    - name: Build firmware
       run: |
         make crkbd/rev1/common:via
-        mv -v .build/crkbd_rev1_common_via.hex .build/crkbd_rev1_common_via_${GITHUB_RUN_ID}.hex
-    - uses: actions/upload-artifact@v1
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1
       with:
         name: firmware
-        path: .build/crkbd_rev1_common_via_${{ github.run_id }}.hex
+        path: .build/crkbd_rev1_common_via.hex
   release:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: create release
-      id: create_release
+    - name: Create a new release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
-        body: |
-          Changes in this Release
-          - test body.
         draft: false
         prerelease: false
-    - uses: actions/download-artifact@v1
+    - name: Download artifact
+      uses: actions/download-artifact@v1
       with:
         name: firmware
-    - name: upload release asset
+    - name: Upload a new release asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: firmware/crkbd_rev1_common_via_${{ github.run_id }}.hex
-        asset_name: crkbd_rev1_common_via_${{ github.run_id }}.hex
+        asset_path: firmware/crkbd_rev1_common_via.hex
+        asset_name: crkbd_rev1_common_via.hex
         asset_content_type: application/octet-stream
