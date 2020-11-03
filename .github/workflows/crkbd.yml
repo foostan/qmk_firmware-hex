@@ -18,7 +18,7 @@ jobs:
     - name: make
       run: |
         wget -P /tmp/foostan/crkbd https://github.com/foostan/qmk_firmware/archive/crkbd.zip
-        unzip -d /tmp/foostan/crkbd /tmp/crkbd/foostan/crkbd.zip > /dev/null
+        unzip -d /tmp/foostan/crkbd /tmp/foostan/crkbd/crkbd.zip > /dev/null
         mv /tmp/lufa-master/LUFA lib/lufa/
         make crkbd/rev1/common:via
         mv -v .build/crkbd_rev1_common_via.hex .build/crkbd_rev1_common_via_${GITHUB_RUN_ID}.hex
