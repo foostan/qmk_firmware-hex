@@ -17,10 +17,10 @@ jobs:
       with:
         repository: foostan/qmk_firmware
         ref: crkbd
+        submodules: true
     - uses: docker://qmkfm/base_container:latest
     - name: make
       run: |
-        make git-submodule
         make crkbd/rev1/common:via
         mv -v .build/crkbd_rev1_common_via.hex .build/crkbd_rev1_common_via_${GITHUB_RUN_ID}.hex
     - uses: actions/upload-artifact@v1
