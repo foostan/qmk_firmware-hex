@@ -17,12 +17,10 @@ jobs:
     - uses: docker://qmkfm/base_container:latest
     - name: make
       run: |
-        wget -P /tmp https://github.com/abcminiuser/lufa/archive/master.zip
-        unzip -d /tmp /tmp/master.zip > /dev/null
-        mv /tmp/lufa-master/LUFA lib/lufa/
         wget -P /tmp/qmk_firmware https://github.com/foostan/qmk_firmware/archive/crkbd.zip
         unzip -d /tmp/qmk_firmware /tmp/qmk_firmware/crkbd.zip > /dev/null
         mv /tmp/qmk_firmware/crkbd/* .
+        make git-submodule
         make crkbd/rev1/common:via
         mv -v .build/crkbd_rev1_common_via.hex .build/crkbd_rev1_common_via_${GITHUB_RUN_ID}.hex
     - uses: actions/upload-artifact@v1
