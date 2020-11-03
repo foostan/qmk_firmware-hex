@@ -14,12 +14,12 @@ jobs:
       image: docker://qmkfm/base_container:latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        repository: foostan/qmk_firmware:crkbd
+        ref: crkbd
     - uses: docker://qmkfm/base_container:latest
     - name: make
       run: |
-        wget -P /tmp/qmk_firmware https://github.com/foostan/qmk_firmware/archive/crkbd.zip
-        unzip -d /tmp/qmk_firmware /tmp/qmk_firmware/crkbd.zip > /dev/null
-        mv /tmp/qmk_firmware/crkbd/* .
         make git-submodule
         make crkbd/rev1/common:via
         mv -v .build/crkbd_rev1_common_via.hex .build/crkbd_rev1_common_via_${GITHUB_RUN_ID}.hex
