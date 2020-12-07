@@ -9,7 +9,7 @@ jobs:
     container:
       image: docker://qmkfm/base_container:latest
     steps:
-    - name: Checkout foostan/qmk_firmware:crkbd
+    - name: Checkout qmk/qmk_firmware:master
       uses: actions/checkout@v2
       with:
         repository: foostan/qmk_firmware
