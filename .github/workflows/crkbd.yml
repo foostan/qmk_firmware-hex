@@ -12,8 +12,8 @@ jobs:
     - name: Checkout qmk/qmk_firmware:master
       uses: actions/checkout@v2
       with:
-        repository: foostan/qmk_firmware
-        ref: crkbd
+        repository: qmk/qmk_firmware
+        ref: master
         submodules: true
     - name: Build firmware
       run: |
