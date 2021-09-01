@@ -23,7 +23,7 @@ jobs:
     - name: Save hex files
       uses: actions/upload-artifact@v2
       with:
-        name: .build
+        name: build
         path: .build/*.hex
   commit:
     needs: build
@@ -36,7 +36,8 @@ jobs:
     - name: Load hex files
       uses: actions/download-artifact@v2
       with:
-        name: .build
+        name: build
+        path: .build
     - name: Commit files
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
