@@ -21,7 +21,7 @@ jobs:
         make foostan/cornelius:default
         make foostan/cornelius:via
     - name: Save hex files
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
         name: .build
         path: .build/*.hex
@@ -34,7 +34,7 @@ jobs:
         persist-credentials: false
         fetch-depth: 0
     - name: Load hex files
-      uses: actions/download-artifact@v1
+      uses: actions/download-artifact@v2
       with:
         name: .build
     - name: Commit files
