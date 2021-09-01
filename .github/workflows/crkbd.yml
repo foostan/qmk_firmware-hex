@@ -16,24 +16,25 @@ jobs:
         submodules: true
     - name: Build firmware
       run: |
+        make crkbd/rev1/common:default
         make crkbd/rev1/common:via
-    - name: Save hex
+        make foostan/cornelius:default
+        make foostan/cornelius:via
+    - name: Save hex files
       uses: actions/upload-artifact@v1
       with:
-        name: tmp
-        path: .build/crkbd_rev1_common_via.hex
+        name: .build
+        path: .build
   commit:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Load hex
+    - name: Load hex files
       uses: actions/download-artifact@v1
       with:
-        name: tmp
+        name: .build
     - name: Commit and Push
       run: |
-        mkdir -p build
-        mv tmp/crkbd_rev1_common_via.hex build
-        git add build
-        git commit -m "Update crkbd_rev1_common_via.hex"
+        git add .
+        git commit -m "Update hex files"
         git push origin main
