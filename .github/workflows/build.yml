@@ -1,7 +1,8 @@
 name: Build and Push hex files
 on:
   push:
-
+  schedule:
+    - cron:  '* 15 * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
