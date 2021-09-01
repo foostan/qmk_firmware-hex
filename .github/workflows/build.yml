@@ -14,6 +14,7 @@ jobs:
         repository: qmk/qmk_firmware
         ref: master
         submodules: true
+        fetch-depth: 0
     - name: Build firmware
       run: |
         make crkbd/rev1/common:default
