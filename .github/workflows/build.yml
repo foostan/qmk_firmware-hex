@@ -1,6 +1,5 @@
 name: Build and Push hex files
 on:
-  push:
   schedule:
     - cron:  '* 15 * * *'
 jobs:
