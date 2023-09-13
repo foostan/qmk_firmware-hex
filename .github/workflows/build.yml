@@ -6,16 +6,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: docker://qmkfm/base_container:latest
+    container: ghcr.io/qmk/qmk_cli
     steps:
     - name: Checkout qmk/qmk_firmware:master
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: qmk/qmk_firmware
         ref: master
         submodules: true
         fetch-depth: 0
+    - name: Install dependencies
+      run: pip3 install -r requirements.txt
     - name: Build firmware
       run: |
         make crkbd:default
@@ -32,7 +33,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         persist-credentials: false
         fetch-depth: 0
