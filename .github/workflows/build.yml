@@ -18,8 +18,8 @@ jobs:
         fetch-depth: 0
     - name: Build firmware
       run: |
-        make crkbd/rev1/common:default
-        make crkbd/rev1/common:via
+        make crkbd:default
+        make crkbd:via
         make crkbd/r2g:mb_via
         make foostan/cornelius:default
         make foostan/cornelius:via
