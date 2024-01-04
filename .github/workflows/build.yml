@@ -21,7 +21,6 @@ jobs:
       run: |
         make crkbd:default
         make crkbd:via
-        make crkbd/r2g:mb_via
         make foostan/cornelius:default
         make foostan/cornelius:via
     - name: Save hex files
